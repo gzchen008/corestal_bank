@@ -1,5 +1,7 @@
 package com.corestal.wpos.bank.biz.entity;
 
+import com.corestal.wpos.bank.biz.constant.BizConstants;
+
 /**
  * Created by cgz on 16-5-10.
  * 功能菜单
@@ -18,12 +20,17 @@ public class FunctionMenu {
     /**
      * 菜单状态
      */
-    private Byte status;
+    private Byte status = BizConstants.FUNCTION_MENU_STATUS_USE;
 
     /**
      * 图标名
      */
     private String icon;
+
+    /**
+     * 功能编码
+     */
+    private String code;
 
     public Integer getId() {
         return id;
@@ -55,5 +62,13 @@ public class FunctionMenu {
 
     public void setStatus(Byte status) {
         this.status = status;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
     }
 }

@@ -1,10 +1,13 @@
 package com.corestal.wpos.bank.biz.entity;
 
+import java.util.Date;
+
 /**
  * Created by cgz on 16-5-10.
  * 排队订单
  */
 public class Order {
+
     private Integer id;
 
     /**
@@ -21,6 +24,16 @@ public class Order {
      * 窗口号
      */
     private Integer stationNum;
+
+    /**
+     * 取号时间
+     */
+    private Date orderTime;
+
+    /**
+     * 业务类型
+     */
+    private FunctionMenu functionMenu;
 
     public Integer getId() {
         return id;
@@ -52,5 +65,21 @@ public class Order {
 
     public void setWorkStatus(Byte workStatus) {
         this.workStatus = workStatus;
+    }
+
+    public FunctionMenu getFunctionMenu() {
+        return functionMenu;
+    }
+
+    public void setFunctionMenu(FunctionMenu functionMenu) {
+        this.functionMenu = functionMenu;
+    }
+
+    public Date getOrderTime() {
+        return orderTime;
+    }
+
+    public void setOrderTime(Date orderTime) {
+        this.orderTime = orderTime;
     }
 }
