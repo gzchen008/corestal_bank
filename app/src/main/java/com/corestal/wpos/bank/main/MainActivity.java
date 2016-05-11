@@ -6,6 +6,7 @@ import android.os.Bundle;
 import com.corestal.wpos.bank.R;
 import com.corestal.wpos.bank.common.CSApplicationHolder;
 import com.corestal.wpos.bank.service.MainService;
+import com.corestal.wpos.bank.service.impl.MainServiceImpl;
 
 /**
  * 主Activity
@@ -23,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         // 初始化数据
-        mainService = new MainService();
+        mainService = new MainServiceImpl();
         mainService.initApplication();
     }
 }
