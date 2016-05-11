@@ -3,7 +3,7 @@ package com.corestal.wpos.bank.main;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-import com.corestal.wpos.bank.arrang.R;
+import com.corestal.wpos.bank.R;
 import com.corestal.wpos.bank.common.CSApplicationHolder;
 import com.corestal.wpos.bank.service.MainService;
 
