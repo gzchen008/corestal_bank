@@ -2,10 +2,13 @@ package com.corestal.wpos.bank.service.impl;
 
 import com.corestal.wpos.bank.biz.constant.BizConstants;
 import com.corestal.wpos.bank.biz.entity.FunctionMenu;
+import com.corestal.wpos.bank.biz.entity.Order;
 import com.corestal.wpos.bank.common.CSApplicationHolder;
 import com.corestal.wpos.bank.service.MainService;
+import com.lidroid.xutils.util.LogUtils;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -31,18 +34,60 @@ public class MainServiceImpl implements MainService {
 
         functionMenu = new FunctionMenu();
         functionMenu.setCode("B");
-        functionMenu.setId(1);
+        functionMenu.setId(2);
         functionMenu.setName("对公业务");
         functionMenu.setStatus(BizConstants.FUNCTION_MENU_STATUS_USE);
         functionMenuList.add(functionMenu);
 
         functionMenu = new FunctionMenu();
         functionMenu.setCode("C");
-        functionMenu.setId(1);
+        functionMenu.setId(3);
         functionMenu.setName("综合业务");
         functionMenu.setStatus(BizConstants.FUNCTION_MENU_STATUS_USE);
         functionMenuList.add(functionMenu);
 
+
         CSApplicationHolder.setFunctionMenuList(functionMenuList);
+        List<String> nameList = new ArrayList<String>();
+        for(FunctionMenu fm : functionMenuList){
+            nameList.add(fm.getName());
+        }
+        CSApplicationHolder.setFunctionMenuNames(nameList.toArray(new String[nameList.size()]));
+    }
+
+    @Override
+    public Order takeNo(Integer functionMenuId) {
+
+        FunctionMenu functionMenu = null;
+        try {
+            functionMenu = CSApplicationHolder.getFunctionMenu(functionMenuId);
+        } catch (Exception e) {
+            LogUtils.d(e.getMessage());
+            return null;
+        }
+
+        Order order = new Order();
+        order.setFunctionMenu(functionMenu);
+        // code 和排队号的组合
+        order.setOrderNum(functionMenu.getCode() + CSApplicationHolder.getNextNoStr());
+        order.setOrderTime(new Date());
+        order.setWorkStatus(BizConstants.ORDER_STATUS_WAITING);
+
+        return order;
+    }
+
+    @Override
+    public void print(Order order) {
+
+    }
+
+    @Override
+    public void done(Order order) {
+
+    }
+
+    @Override
+    public void cancle(Order order) {
+
     }
 }

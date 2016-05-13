@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:id="@+id/order_base_info"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_order_base_info_order_no"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="A003(个人业务)" />
+
+            <TextView
+                android:id="@+id/tv_order_base_info_order_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="时间:10:09:20" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_toRightOf="@+id/order_base_info">
+
+            <Button
+                android:id="@+id/btn_oper_print"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/oper_print"
+                android:textSize="@dimen/font_size_mid"
+                android:layout_weight="1"/>
+
+            <Button
+                android:id="@+id/btn_oper_play"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/oper_play"
+                android:textSize="@dimen/font_size_mid"
+                android:layout_weight="1"/>
+
+            <Button
+                android:id="@+id/btn_oper_done"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/oper_done"
+                android:textSize="@dimen/font_size_mid"
+                android:layout_weight="1"/>
+
+            <Button
+                android:id="@+id/btn_oper_cancle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/oper_cancle"
+                android:textSize="@dimen/font_size_mid"
+                android:layout_weight="1"/>
+        </LinearLayout>
+    </RelativeLayout>
+</LinearLayout>

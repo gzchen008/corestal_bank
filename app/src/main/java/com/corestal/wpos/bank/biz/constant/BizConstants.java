@@ -21,4 +21,21 @@ public class BizConstants {
      */
 
     public static Byte FUNCTION_MENU_STATUS_DISABLE  = -1;
+
+
+    ////////////////////
+    /**
+     * 等待处理
+     */
+    public static Byte ORDER_STATUS_WAITING = -1;
+
+    /**
+     * 处理中
+     */
+    public static Byte ORDER_STATUS_WORKING = 0 ;
+
+    /**
+     * 完成
+     */
+    public static Byte ORDER_STATUS_FINISHED = 1 ;
 }

@@ -26,9 +26,15 @@ public class CSApplicationHolder {
     private static List<FunctionMenu> functionMenuList;
 
     /**
+     * 功能列表名称
+     */
+    private static String[] functionMenuNames;
+
+    /**
      * 窗口数量
      */
     private static Integer stationCount;
+
 
 
     /**
@@ -66,7 +72,7 @@ public class CSApplicationHolder {
             currNo = startNo;
 
         synchronized (currNo) {
-            return String.format("%07d", ++currNo);
+            return String.format("%03d", ++currNo);
         }
     }
 
@@ -84,5 +90,28 @@ public class CSApplicationHolder {
 
     public static void setStationCount(Integer stationCount) {
         CSApplicationHolder.stationCount = stationCount;
+    }
+
+    /**
+     * 根据类型ID 获取类型对象
+     * @param functionMenuId
+     * @return
+     */
+    public static FunctionMenu getFunctionMenu(Integer functionMenuId){
+        for(FunctionMenu fm : functionMenuList){
+            if (fm.getId().equals(functionMenuId)){
+                return fm;
+            }
+        }
+        throw new RuntimeException("此ID的功能菜单找不到");
+    }
+
+
+    public static String[] getFunctionMenuNames() {
+        return functionMenuNames;
+    }
+
+    public static void setFunctionMenuNames(String[] functionMenuNames) {
+        CSApplicationHolder.functionMenuNames = functionMenuNames;
     }
 }

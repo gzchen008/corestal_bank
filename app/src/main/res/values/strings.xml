@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">中国农业银行</string>
+    <string name="take_no">取号</string>
+    <string name="oper_print">取号</string>
+    <string name="oper_play">叫号</string>
+    <string name="oper_done">办理</string>
+    <string name="oper_cancle">过号</string>
+    <string name="function_menu_name">业务类型</string>
 </resources>

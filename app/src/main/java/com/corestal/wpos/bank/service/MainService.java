@@ -23,9 +23,24 @@ public interface MainService {
      * 取号操作
      * @return
      */
-    public String takeNo(FunctionMenu functionMenu);
+    public Order takeNo(Integer functionMenuId);
 
+    /**
+     * 打印小票
+     * @param order
+     */
     public void print(Order order);
 
+    /**
+     * 办理
+     * @param order
+     */
     public void done(Order order);
+
+    /**
+     *
+     * 过号，取消排号
+     * @param order
+     */
+    public void cancle(Order order);
 }
