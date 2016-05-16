@@ -30,6 +30,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import cn.weipass.pos.sdk.Weipos;
+import cn.weipass.pos.sdk.impl.WeiposImpl;
+
 /**
  * 主Activity
  * create by cgz on 16-05-10
@@ -97,9 +100,21 @@ public class MainActivity extends AppCompatActivity {
         mainService.initApplication();
         orderList = new ArrayList<Order>();
         // TODO 初始化时从数据库中取出数据
-
         orderListAdapter = new OrderListAdapter(this, orderList);
         orderListView.setAdapter(orderListAdapter);
+
+        // 初始化wang pos
+        WeiposImpl.as().init(this, new Weipos.OnInitListener() {
+            @Override
+            public void onInitOk() {
+                WeiposImpl.as().speech("排队系统就绪");
+            }
+
+            @Override
+            public void onError(String s) {
+                Toast.makeText(MainActivity.this,"SDK初始化失败",Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     /**

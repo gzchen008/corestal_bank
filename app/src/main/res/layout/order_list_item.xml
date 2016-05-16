@@ -32,7 +32,7 @@
             android:layout_height="match_parent"
             android:layout_toRightOf="@+id/order_base_info">
 
-            <Button
+            <com.corestal.wpos.bank.view.component.ListViewItemButton
                 android:id="@+id/btn_oper_print"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -40,7 +40,7 @@
                 android:textSize="@dimen/font_size_mid"
                 android:layout_weight="1"/>
 
-            <Button
+            <com.corestal.wpos.bank.view.component.ListViewItemButton
                 android:id="@+id/btn_oper_play"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -48,7 +48,7 @@
                 android:textSize="@dimen/font_size_mid"
                 android:layout_weight="1"/>
 
-            <Button
+            <com.corestal.wpos.bank.view.component.ListViewItemButton
                 android:id="@+id/btn_oper_done"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -56,7 +56,7 @@
                 android:textSize="@dimen/font_size_mid"
                 android:layout_weight="1"/>
 
-            <Button
+            <com.corestal.wpos.bank.view.component.ListViewItemButton
                 android:id="@+id/btn_oper_cancle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
