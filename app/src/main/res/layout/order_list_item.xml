@@ -2,17 +2,15 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="horizontal">
 
-    <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent">
 
         <LinearLayout
             android:id="@+id/order_base_info"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:layout_weight="4">
 
             <TextView
                 android:id="@+id/tv_order_base_info_order_no"
@@ -30,7 +28,8 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_toRightOf="@+id/order_base_info">
+            android:layout_toRightOf="@+id/order_base_info"
+            android:layout_weight="6">
 
             <com.corestal.wpos.bank.view.component.ListViewItemButton
                 android:id="@+id/btn_oper_print"
@@ -64,5 +63,4 @@
                 android:textSize="@dimen/font_size_mid"
                 android:layout_weight="1"/>
         </LinearLayout>
-    </RelativeLayout>
 </LinearLayout>

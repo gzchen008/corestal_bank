@@ -46,6 +46,13 @@ public class MainServiceImpl implements MainService {
         functionMenu.setStatus(BizConstants.FUNCTION_MENU_STATUS_USE);
         functionMenuList.add(functionMenu);
 
+        functionMenu = new FunctionMenu();
+        functionMenu.setCode("V");
+        functionMenu.setId(4);
+        functionMenu.setName("贵宾业务");
+        functionMenu.setStatus(BizConstants.FUNCTION_MENU_STATUS_USE);
+        functionMenuList.add(functionMenu);
+
 
         CSApplicationHolder.setFunctionMenuList(functionMenuList);
         List<String> nameList = new ArrayList<String>();

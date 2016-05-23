@@ -1,11 +1,17 @@
 package com.corestal.wpos.bank.main;
 
 import android.app.Dialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.preference.DialogPreference;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.SurfaceHolder;
 import android.view.View;
 import android.view.WindowManager;
@@ -18,6 +24,7 @@ import android.widget.Toast;
 import com.corestal.wpos.bank.R;
 import com.corestal.wpos.bank.biz.entity.FunctionMenu;
 import com.corestal.wpos.bank.biz.entity.Order;
+import com.corestal.wpos.bank.broadcast.HomeWatcherReceiver;
 import com.corestal.wpos.bank.common.CSApplicationHolder;
 import com.corestal.wpos.bank.service.MainService;
 import com.corestal.wpos.bank.service.impl.MainServiceImpl;
@@ -65,6 +72,12 @@ public class MainActivity extends AppCompatActivity {
      */
     private List<Order> orderList;
 
+    /**
+     * Home事件监听器
+     */
+    private HomeWatcherReceiver homeWatcherReceiver;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,6 +90,12 @@ public class MainActivity extends AppCompatActivity {
         init();
 
         setListener();
+
+        homeWatcherReceiver = new HomeWatcherReceiver();
+
+        // 禁用home键
+        registerReceiver(homeWatcherReceiver, new IntentFilter(
+                Intent.ACTION_CLOSE_SYSTEM_DIALOGS));
 
     }
 
@@ -160,4 +179,6 @@ public class MainActivity extends AppCompatActivity {
         dialog.getWindow().setAttributes(lp);
         dialog.show();
     }
+
+
 }
