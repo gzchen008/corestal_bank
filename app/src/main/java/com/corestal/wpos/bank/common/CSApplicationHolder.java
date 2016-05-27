@@ -66,7 +66,9 @@ public class CSApplicationHolder {
      * 获取下一个排号
      *
      * @return 下一个排号，字符吕形式
+     * 因为排号是独立的，此方法已弃用
      */
+    @Deprecated
     public static String getNextNoStr() {
         if (currNo == null)
             currNo = startNo;
@@ -113,5 +115,19 @@ public class CSApplicationHolder {
 
     public static void setFunctionMenuNames(String[] functionMenuNames) {
         CSApplicationHolder.functionMenuNames = functionMenuNames;
+    }
+
+    /**
+     * 产生下一个号
+     * @param functionMenu
+     * @return
+     */
+    public static String getNextNoStr(FunctionMenu functionMenu) {
+        int nextNo = functionMenu.getCurrentNo() + 1;
+        synchronized (functionMenu) {
+            functionMenu.setCurrentNo(nextNo);
+            return String.format("%03d", nextNo);
+        }
+
     }
 }

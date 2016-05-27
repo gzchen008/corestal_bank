@@ -10,6 +10,7 @@ import java.util.Stack;
  */
 public class DateUtils {
     public static final String HHMMSS = "HH:mm:ss";
+    public static final String YYYYMMDDHHMM = "yyyy-MM-dd HH:mm";
 
     public static String getDate(String format) {
         return new SimpleDateFormat(format).format(new Date());

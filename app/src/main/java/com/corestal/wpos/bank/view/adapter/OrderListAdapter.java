@@ -2,7 +2,7 @@ package com.corestal.wpos.bank.view.adapter;
 
 import android.content.Context;
 import android.content.DialogInterface;
-import android.support.v7.app.AlertDialog;
+import android.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -159,45 +159,15 @@ public class OrderListAdapter extends BaseAdapter {
             Weipos weiposImpl = WeiposImpl.as();
             if (weiposImpl == null) {
                 LogUtils.d("weipos sdk出错");
-            }else{
+            } else {
                 Printer printer = weiposImpl.openPrinter();
                 if (printer != null) { // 在非wangpos下会是null
-                    /*printer.setOnEventListener(new IPrint.OnEventListener() {
-
-                        @Override
-                        public void onEvent(final int what, final String in) {
-                            switch (what) {
-                                case Printer.EVENT_OK:
-                                    //打印成功
-                                    Toast.makeText(context, in, Toast.LENGTH_LONG).show();
-                                    break;
-                                case Printer.EVENT_CONNECTED:
-                                    //打印机连接成功
-                                    break;
-                                case Printer.EVENT_CONNECT_FAILD:
-                                    //连接打印机失败
-                                    Toast.makeText(context, "连接打印机失败", Toast.LENGTH_LONG).show();
-                                    break;
-                                case Printer.EVENT_NO_PAPER:
-                                    // 打印事件常量，缺纸
-                                    Toast.makeText(context, "打印机缺纸", Toast.LENGTH_LONG).show();
-                                    break;
-                                case Printer.EVENT_PAPER_JAM:
-                                    // 打印事件常量，卡纸
-                                    Toast.makeText(context, "打印机卡纸", Toast.LENGTH_LONG).show();
-                                    break;
-                                case Printer.EVENT_UNKNOW:
-                                    // 打印事件常量，未知事件
-                                    Toast.makeText(context, "打印未知错误", Toast.LENGTH_LONG).show();
-                                    break;
-                                default:
-                                    break;
-                            }
-                        }
-                    });*/
                     printer.printText(
-                            "排队单号：" + order.getOrderNum() + "\n取票时间:" + order.getOrderTime() +
-                                    "\n业务类型:" + order.getFunctionMenu().getName() + "\n请耐心等待，我们会尽快安排办理！",
+                            "欢迎光临\n" +
+                                    "---------------------------\n" +
+                                    "排队单号：" + order.getOrderNum() + "\n取票时间:" + DateUtils.getDate(order.getOrderTime(),DateUtils.YYYYMMDDHHMM) +
+                                    "\n业务类型:" + order.getFunctionMenu().getName() + "\n请耐心等待，我们会尽快安排！" +
+                                    "---------------------------\n" +"\n\n\n\n",
                             Printer.FontFamily.SONG, Printer.FontSize.MEDIUM,
                             Printer.FontStyle.NORMAL, Printer.Gravity.CENTER);
                 }

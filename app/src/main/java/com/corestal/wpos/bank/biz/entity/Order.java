@@ -1,5 +1,7 @@
 package com.corestal.wpos.bank.biz.entity;
 
+import com.lidroid.xutils.db.annotation.Id;
+
 import java.util.Date;
 
 /**
@@ -8,6 +10,7 @@ import java.util.Date;
  */
 public class Order {
 
+    @Id
     private Integer id;
 
     /**
@@ -29,6 +32,11 @@ public class Order {
      * 取号时间
      */
     private Date orderTime;
+
+    /**
+     * 结束时间
+     */
+    private Date endTime;
 
     /**
      * 业务类型
@@ -81,5 +89,13 @@ public class Order {
 
     public void setOrderTime(Date orderTime) {
         this.orderTime = orderTime;
+    }
+
+    public Date getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(Date endTime) {
+        this.endTime = endTime;
     }
 }

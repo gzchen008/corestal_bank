@@ -1,24 +1,22 @@
 package com.corestal.wpos.bank.main;
 
+import android.app.ActionBar;
+import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.preference.DialogPreference;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.TextUtils;
+
 import android.view.KeyEvent;
-import android.view.SurfaceHolder;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.PopupMenu;
 import android.widget.Toast;
 
 import com.corestal.wpos.bank.R;
@@ -28,8 +26,12 @@ import com.corestal.wpos.bank.broadcast.HomeWatcherReceiver;
 import com.corestal.wpos.bank.common.CSApplicationHolder;
 import com.corestal.wpos.bank.service.MainService;
 import com.corestal.wpos.bank.service.impl.MainServiceImpl;
+import com.corestal.wpos.bank.utils.HomeKeyLocker;
 import com.corestal.wpos.bank.view.adapter.OrderListAdapter;
+import com.lidroid.xutils.DbUtils;
 import com.lidroid.xutils.ViewUtils;
+import com.lidroid.xutils.exception.DbException;
+import com.lidroid.xutils.util.LogUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 
@@ -44,7 +46,7 @@ import cn.weipass.pos.sdk.impl.WeiposImpl;
  * 主Activity
  * create by cgz on 16-05-10
  */
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends Activity {
     /**
      * 取号按钮
      */
@@ -77,12 +79,19 @@ public class MainActivity extends AppCompatActivity {
      */
     private HomeWatcherReceiver homeWatcherReceiver;
 
+    /**
+     * 锁home
+     */
+    private HomeKeyLocker homeKeyLocker;
+
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_main);
+
 
         // Xutils view inject
         ViewUtils.inject(this);
@@ -94,8 +103,11 @@ public class MainActivity extends AppCompatActivity {
         homeWatcherReceiver = new HomeWatcherReceiver();
 
         // 禁用home键
-        registerReceiver(homeWatcherReceiver, new IntentFilter(
-                Intent.ACTION_CLOSE_SYSTEM_DIALOGS));
+        //registerReceiver(homeWatcherReceiver, new IntentFilter(
+          //      Intent.ACTION_CLOSE_SYSTEM_DIALOGS));
+
+        //homeKeyLocker = new HomeKeyLocker();
+        //homeKeyLocker.lock(this);
 
     }
 
@@ -108,7 +120,7 @@ public class MainActivity extends AppCompatActivity {
             order = new Order();
             order.setOrderTime(new Date());
             order.setFunctionMenu(CSApplicationHolder.getFunctionMenu(3));
-            order.setOrderNum("A"+i);
+            order.setOrderNum("A" + i);
             orderList.add(order);
         }
     }
@@ -131,7 +143,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onError(String s) {
-                Toast.makeText(MainActivity.this,"SDK初始化失败",Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, "SDK初始化失败", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -163,13 +175,20 @@ public class MainActivity extends AppCompatActivity {
      */
     private void showFunctionMenuDialog(View view) {
         final String[] fmNames = CSApplicationHolder.getFunctionMenuNames();
+        // 自定义选择列表
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this).setTitle(R.string.function_menu_name).setItems(fmNames, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                FunctionMenu  functionMenu = CSApplicationHolder.getFunctionMenuList().get(which);
+                FunctionMenu functionMenu = CSApplicationHolder.getFunctionMenuList().get(which);
                 Order order = mainService.takeNo(functionMenu.getId());
                 orderList.add(order);
                 orderListAdapter.notifyDataSetChanged();
+                try {
+                    DbUtils.create(MainActivity.this).save(order);
+                } catch (DbException e) {
+                    LogUtils.d("保存订单出错");
+                    e.printStackTrace();
+                }
             }
         });
         Dialog dialog = dialogBuilder.create();
@@ -178,6 +197,16 @@ public class MainActivity extends AppCompatActivity {
         lp.alpha = 0.9f;
         dialog.getWindow().setAttributes(lp);
         dialog.show();
+    }
+
+    @Override
+    public boolean onKeyDown( int keyCode, KeyEvent event) {
+        // TODO Auto-generated method stub
+        if (keyCode == event.KEYCODE_HOME) {
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+
     }
 
 

@@ -7,4 +7,5 @@
     <string name="oper_cancle">过号</string>
     <string name="function_menu_name">业务类型</string>
     <string name="station_name">请选择办理窗口</string>
+    <string name="title_activity_startup">中国农业银行</string>
 </resources>

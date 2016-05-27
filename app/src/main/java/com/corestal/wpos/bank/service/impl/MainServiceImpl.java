@@ -76,7 +76,7 @@ public class MainServiceImpl implements MainService {
         Order order = new Order();
         order.setFunctionMenu(functionMenu);
         // code 和排队号的组合
-        order.setOrderNum(functionMenu.getCode() + CSApplicationHolder.getNextNoStr());
+        order.setOrderNum(functionMenu.getCode() + CSApplicationHolder.getNextNoStr(functionMenu));
         order.setOrderTime(new Date());
         order.setWorkStatus(BizConstants.ORDER_STATUS_WAITING);
 

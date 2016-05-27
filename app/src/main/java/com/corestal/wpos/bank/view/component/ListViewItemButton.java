@@ -2,7 +2,7 @@ package com.corestal.wpos.bank.view.component;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.widget.Button;
+import android.widget.ImageButton;
 
 import com.corestal.wpos.bank.biz.entity.Order;
 
@@ -10,7 +10,7 @@ import com.corestal.wpos.bank.biz.entity.Order;
  * Created by cgz on 16-5-14.
  * 在ListView中的Button
  */
-public class ListViewItemButton extends Button{
+public class ListViewItemButton extends ImageButton {
     private int index;
     private Order order;
 

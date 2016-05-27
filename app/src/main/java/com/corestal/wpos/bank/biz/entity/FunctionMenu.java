@@ -32,6 +32,11 @@ public class FunctionMenu {
      */
     private String code;
 
+    /**
+     * 当前排号
+     */
+    private Integer currentNo = 0;
+
     public Integer getId() {
         return id;
     }
@@ -70,5 +75,13 @@ public class FunctionMenu {
 
     public void setCode(String code) {
         this.code = code;
+    }
+
+    public Integer getCurrentNo() {
+        return currentNo;
+    }
+
+    public void setCurrentNo(Integer currentNo) {
+        this.currentNo = currentNo;
     }
 }
