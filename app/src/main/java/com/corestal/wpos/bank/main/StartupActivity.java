@@ -1,5 +1,6 @@
 package com.corestal.wpos.bank.main;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -13,7 +14,7 @@ import android.widget.ImageView;
 
 import com.corestal.wpos.bank.R;
 
-public class StartupActivity extends AppCompatActivity {
+public class StartupActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

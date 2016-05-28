@@ -8,4 +8,6 @@
     <string name="function_menu_name">业务类型</string>
     <string name="station_name">请选择办理窗口</string>
     <string name="title_activity_startup">中国农业银行</string>
+    <string name="drawer_open">打开</string>
+    <string name="drawer_close">关闭</string>
 </resources>

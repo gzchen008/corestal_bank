@@ -1,18 +1,13 @@
 package com.corestal.wpos.bank.main;
 
-import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
-import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Bundle;
-
+import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -28,6 +23,7 @@ import com.corestal.wpos.bank.service.MainService;
 import com.corestal.wpos.bank.service.impl.MainServiceImpl;
 import com.corestal.wpos.bank.utils.HomeKeyLocker;
 import com.corestal.wpos.bank.view.adapter.OrderListAdapter;
+import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.lidroid.xutils.DbUtils;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.exception.DbException;
@@ -46,7 +42,7 @@ import cn.weipass.pos.sdk.impl.WeiposImpl;
  * 主Activity
  * create by cgz on 16-05-10
  */
-public class MainActivity extends Activity {
+public class MainActivity extends AppCompatActivity {
     /**
      * 取号按钮
      */
@@ -58,6 +54,12 @@ public class MainActivity extends Activity {
      */
     @ViewInject(R.id.order_list_view)
     private ListView orderListView;
+
+    /**
+     * 侧滑菜单
+     */
+    private SlidingMenu slidingMenu;
+
 
     /**
      * order List Adapter
@@ -84,6 +86,10 @@ public class MainActivity extends Activity {
      */
     private HomeKeyLocker homeKeyLocker;
 
+    /**
+     * 就用标题
+     */
+    private String title;
 
 
     @Override
@@ -92,6 +98,7 @@ public class MainActivity extends Activity {
 
         setContentView(R.layout.activity_main);
 
+        title = (String) getTitle();
 
         // Xutils view inject
         ViewUtils.inject(this);
@@ -104,7 +111,7 @@ public class MainActivity extends Activity {
 
         // 禁用home键
         //registerReceiver(homeWatcherReceiver, new IntentFilter(
-          //      Intent.ACTION_CLOSE_SYSTEM_DIALOGS));
+        //      Intent.ACTION_CLOSE_SYSTEM_DIALOGS));
 
         //homeKeyLocker = new HomeKeyLocker();
         //homeKeyLocker.lock(this);
@@ -133,6 +140,13 @@ public class MainActivity extends Activity {
         // TODO 初始化时从数据库中取出数据
         orderListAdapter = new OrderListAdapter(this, orderList);
         orderListView.setAdapter(orderListAdapter);
+
+        slidingMenu = new SlidingMenu(this);
+        slidingMenu.setMode(SlidingMenu.LEFT);
+        slidingMenu.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
+        slidingMenu.setBehindOffsetRes(R.dimen.slidingmenu_offset);
+        slidingMenu.setMenu(R.layout.slidingmenumain);
+        slidingMenu.attachToActivity(this, SlidingMenu.SLIDING_CONTENT);
 
         // 初始化wang pos
         WeiposImpl.as().init(this, new Weipos.OnInitListener() {
@@ -200,11 +214,8 @@ public class MainActivity extends Activity {
     }
 
     @Override
-    public boolean onKeyDown( int keyCode, KeyEvent event) {
-        // TODO Auto-generated method stub
-        if (keyCode == event.KEYCODE_HOME) {
-            return true;
-        }
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        slidingMenu.toggle(true);
         return super.onKeyDown(keyCode, event);
 
     }

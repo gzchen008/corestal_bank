@@ -5,4 +5,5 @@
     <dimen name="font_size_big">25sp</dimen>
     <dimen name="font_size_mid">12sp</dimen>
     <dimen name="fab_margin">16dp</dimen>
+    <dimen name="slidingmenu_offset">20dp</dimen>
 </resources>
