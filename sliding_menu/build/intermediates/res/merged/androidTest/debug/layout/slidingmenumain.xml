@@ -2,9 +2,32 @@
 <com.jeremyfeinstein.slidingmenu.lib.SlidingMenu xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/slidingmenumain"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent" >
+    android:layout_height="fill_parent">
+
     <TextView
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        android:text="aaaa"/>
-    </com.jeremyfeinstein.slidingmenu.lib.SlidingMenu>
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="设置" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="业务设置"
+            android:paddingBottom="20dp"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="wifi设置"
+            android:paddingBottom="20dp"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="清空缓存"
+            android:paddingBottom="20dp"/>
+
+    </LinearLayout>
+
+</com.jeremyfeinstein.slidingmenu.lib.SlidingMenu>
