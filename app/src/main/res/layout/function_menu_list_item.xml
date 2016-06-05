@@ -1,6 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:orientation="vertical" android:layout_width="@dimen/function_menu_image_width"
+    android:layout_height="match_parent"
+    android:layout_centerHorizontal="true"
+    >
 
+    <ImageView
+        android:id="@+id/iv_function_menu"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/function_menu_image_height"
+        android:src="@drawable/fm_buddy"/>
+    <TextView
+        android:id="@+id/tv_function_menu_title"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/function_menu_title_height"
+        android:text="个人业务"
+        android:gravity="center"
+        />
 </LinearLayout>

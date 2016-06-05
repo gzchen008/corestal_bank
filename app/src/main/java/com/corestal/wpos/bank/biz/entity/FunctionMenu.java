@@ -2,11 +2,16 @@ package com.corestal.wpos.bank.biz.entity;
 
 import com.corestal.wpos.bank.biz.constant.BizConstants;
 
+import java.io.Serializable;
+
 /**
  * Created by cgz on 16-5-10.
  * 功能菜单
  */
-public class FunctionMenu {
+public class FunctionMenu implements Serializable{
+
+    private static final long serialVersionUID = -316102412618444934L;
+
     /**
      * 功能编号
      */
@@ -26,6 +31,11 @@ public class FunctionMenu {
      * 图标名
      */
     private String icon;
+
+    /**
+     * 资源中的图片
+     */
+    private int iconRes;
 
     /**
      * 功能编码
@@ -83,5 +93,13 @@ public class FunctionMenu {
 
     public void setCurrentNo(Integer currentNo) {
         this.currentNo = currentNo;
+    }
+
+    public int getIconRes() {
+        return iconRes;
+    }
+
+    public void setIconRes(int iconRes) {
+        this.iconRes = iconRes;
     }
 }

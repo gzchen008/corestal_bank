@@ -10,9 +10,10 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.corestal.wpos.bank.main.MainActivity">
 
-   <!-- <include layout="@layout/common_title_bar"
+    <include layout="@layout/common_title_bar"
         android:id="@+id/title_bar"
-        />-->
+        />
+
     <ListView
         android:id="@+id/order_list_view"
         android:layout_width="match_parent"
@@ -29,7 +30,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-
+        android:background="@color/titlebg"
         android:orientation="vertical">
 
         <Button

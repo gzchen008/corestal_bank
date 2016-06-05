@@ -11,14 +11,17 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.corestal.wpos.bank.R;
+import com.corestal.wpos.bank.biz.constant.BizConstants;
 import com.corestal.wpos.bank.biz.entity.Order;
 import com.corestal.wpos.bank.common.CSApplicationHolder;
 import com.corestal.wpos.bank.utils.DateUtils;
+import com.corestal.wpos.bank.utils.FileUtils;
 import com.corestal.wpos.bank.view.component.ListViewItemButton;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.util.LogUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import cn.weipass.pos.sdk.IPrint;
@@ -65,6 +68,8 @@ public class OrderListAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+        if(orderList.size() == 0)
+            return null;
         ViewHolder viewHolder = null;
         if (convertView == null) {
             convertView = layoutInflater.inflate(R.layout.order_list_item, null);
@@ -177,13 +182,13 @@ public class OrderListAdapter extends BaseAdapter {
         private void btnCancleClick(int index) {
             // TODO 目前完成订单只是将元素删掉
             orderList.remove(index);
-            OrderListAdapter.this.notifyDataSetChanged();
+            updateInFile();
         }
 
         private void btnDoneClick(int position) {
             // TODO 目前完成订单只是将元素删掉
             orderList.remove(position);
-            OrderListAdapter.this.notifyDataSetChanged();
+            updateInFile();
         }
 
         private void btnPalyClick(final Order order, final Context context) {
@@ -205,6 +210,13 @@ public class OrderListAdapter extends BaseAdapter {
             });
             dialogBuilder.create().show();
         }
+    }
+
+    private void updateInFile() {
+        OrderListAdapter.this.notifyDataSetChanged();
+        boolean result1 = FileUtils.saveObject(BizConstants.DATA_ORDER_LIST_IN_FILE, (ArrayList)orderList, context);
+        if (!result1)
+            LogUtils.d("更新订单出错");
     }
 
 }

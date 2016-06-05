@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.jeremyfeinstein.slidingmenu.lib.SlidingMenu xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/slidingmenumain"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <TextView
+            android:paddingTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/font_size_big"
+            android:paddingBottom="20dp"
+            android:background="@drawable/border_bg"
+            android:text="设置" />
+        <TextView
+            android:id="@+id/tv_settings"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="系统设置"
+            android:textSize="@dimen/font_size_big"
+            android:paddingBottom="20dp"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/font_size_big"
+            android:text="wifi设置"
+            android:paddingBottom="20dp"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/font_size_big"
+            android:text="清空缓存"
+            android:paddingBottom="20dp"/>
+        <TextView
+            android:id="@+id/tv_developer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/font_size_big"
+            android:text="开发选项"
+            android:paddingBottom="20dp"/>
+
+    </LinearLayout>
+
+</com.jeremyfeinstein.slidingmenu.lib.SlidingMenu>

@@ -1,14 +1,18 @@
 package com.corestal.wpos.bank.biz.entity;
 
+import com.lidroid.xutils.db.annotation.Finder;
 import com.lidroid.xutils.db.annotation.Id;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  * Created by cgz on 16-5-10.
  * 排队订单
  */
-public class Order {
+public class Order implements Serializable{
+
+    private static final long serialVersionUID = -316102412618444933L;
 
     @Id
     private Integer id;

@@ -1,6 +1,9 @@
 package com.corestal.wpos.bank.utils;
 
+import com.lidroid.xutils.util.LogUtils;
+
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Stack;
 
@@ -20,4 +23,19 @@ public class DateUtils {
         return new SimpleDateFormat(format).format(date);
     }
 
+    /**
+     * 与当前时间比较是否为当天
+     *
+     * @param orderTime
+     * @return
+     */
+    public static boolean isToday(Date orderTime) {
+        Calendar calNow = Calendar.getInstance();
+        calNow.setTime(new Date());
+        Calendar calCum = Calendar.getInstance();
+        calCum.setTime(orderTime);
+        LogUtils.d("orderTime:" +  orderTime);
+        //LogUtils.d("date:" +  calCum.get(Calendar.DAY_OF_YEAR) + ":" + calNow.get(Calendar.DAY_OF_YEAR));
+        return calCum.get(Calendar.DAY_OF_YEAR) == calNow.get(Calendar.DAY_OF_YEAR);
+    }
 }

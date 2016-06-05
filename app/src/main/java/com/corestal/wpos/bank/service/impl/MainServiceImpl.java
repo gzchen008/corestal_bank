@@ -1,5 +1,6 @@
 package com.corestal.wpos.bank.service.impl;
 
+import com.corestal.wpos.bank.R;
 import com.corestal.wpos.bank.biz.constant.BizConstants;
 import com.corestal.wpos.bank.biz.entity.FunctionMenu;
 import com.corestal.wpos.bank.biz.entity.Order;
@@ -30,27 +31,36 @@ public class MainServiceImpl implements MainService {
         functionMenu.setId(1);
         functionMenu.setName("个人业务");
         functionMenu.setStatus(BizConstants.FUNCTION_MENU_STATUS_USE);
+        functionMenu.setIconRes(R.drawable.fm_buddy);
+        functionMenu.setCurrentNo(0);
         functionMenuList.add(functionMenu);
+
 
         functionMenu = new FunctionMenu();
         functionMenu.setCode("B");
         functionMenu.setId(2);
         functionMenu.setName("对公业务");
+        functionMenu.setIconRes(R.drawable.fm_duigong);
         functionMenu.setStatus(BizConstants.FUNCTION_MENU_STATUS_USE);
+        functionMenu.setCurrentNo(0);
         functionMenuList.add(functionMenu);
 
         functionMenu = new FunctionMenu();
         functionMenu.setCode("C");
         functionMenu.setId(3);
         functionMenu.setName("综合业务");
+        functionMenu.setIconRes(R.drawable.fm_normal);
         functionMenu.setStatus(BizConstants.FUNCTION_MENU_STATUS_USE);
+        functionMenu.setCurrentNo(0);
         functionMenuList.add(functionMenu);
 
         functionMenu = new FunctionMenu();
         functionMenu.setCode("V");
         functionMenu.setId(4);
         functionMenu.setName("贵宾业务");
+        functionMenu.setIconRes(R.drawable.fm_vip);
         functionMenu.setStatus(BizConstants.FUNCTION_MENU_STATUS_USE);
+        functionMenu.setCurrentNo(0);
         functionMenuList.add(functionMenu);
 
 

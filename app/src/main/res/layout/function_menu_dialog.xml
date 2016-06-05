@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GridView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="500dp"
+    android:layout_height="match_parent"
+    android:numColumns="3"
+    android:columnWidth="150dp"
+
+    android:stretchMode="columnWidth"
+    android:id="@+id/gv_function_menu">
+
+
+</GridView>

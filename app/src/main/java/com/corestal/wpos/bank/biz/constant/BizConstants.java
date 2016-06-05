@@ -6,7 +6,6 @@ package com.corestal.wpos.bank.biz.constant;
  */
 public class BizConstants {
 
-
     ////////////////////
     /**
      *  功能菜单状态：使用
@@ -38,4 +37,15 @@ public class BizConstants {
      * 完成
      */
     public static Byte ORDER_STATUS_FINISHED = 1 ;
+
+    /////////////////////////
+    /**
+     * 文件中的订单列表
+     */
+    public static String DATA_ORDER_LIST_IN_FILE = "order_list_in_file.data";
+
+    /**
+     * 文件中的当前排号
+     */
+    public static final String DATA_CURRENT_NUM_MAP_IN_FILE = "current_num_map_in_file.data";
 }

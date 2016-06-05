@@ -18,13 +18,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="@dimen/font_size_big"
-                android:text="A003(个人业务)" />
+                android:text="A003(个人业务)"
+                android:textColor="@color/black"/>
 
             <TextView
                 android:id="@+id/tv_order_base_info_order_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="@dimen/font_size_big"
+                android:textSize="@dimen/font_size_mid"
                 android:text="时间:10:09:20" />
         </LinearLayout>
 

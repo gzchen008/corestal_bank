@@ -2,8 +2,12 @@
     <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="activity_horizontal_margin">5dp</dimen>
     <dimen name="activity_vertical_margin">5dp</dimen>
-    <dimen name="font_size_big">25sp</dimen>
-    <dimen name="font_size_mid">12sp</dimen>
+    <dimen name="font_size_big">30sp</dimen>
+    <dimen name="font_size_mid">20sp</dimen>
     <dimen name="fab_margin">16dp</dimen>
-    <dimen name="slidingmenu_offset">20dp</dimen>
+    <dimen name="slidingmenu_offset">200dp</dimen>
+    <dimen name="slidingmenu_width">300dp</dimen>
+    <dimen name="function_menu_image_width">90dp</dimen>
+    <dimen name="function_menu_image_height">90dp</dimen>
+    <dimen name="function_menu_title_height">30dp</dimen>
 </resources>
