@@ -1,6 +1,8 @@
 package com.corestal.wpos.bank.common;
 
 import com.corestal.wpos.bank.biz.entity.FunctionMenu;
+import com.corestal.wpos.bank.biz.entity.Order;
+import com.lidroid.xutils.util.LogUtils;
 
 import java.util.List;
 
@@ -34,7 +36,6 @@ public class CSApplicationHolder {
      * 窗口数量
      */
     private static Integer stationCount;
-
 
 
     /**
@@ -96,12 +97,13 @@ public class CSApplicationHolder {
 
     /**
      * 根据类型ID 获取类型对象
+     *
      * @param functionMenuId
      * @return
      */
-    public static FunctionMenu getFunctionMenu(Integer functionMenuId){
-        for(FunctionMenu fm : functionMenuList){
-            if (fm.getId().equals(functionMenuId)){
+    public static FunctionMenu getFunctionMenu(Integer functionMenuId) {
+        for (FunctionMenu fm : functionMenuList) {
+            if (fm.getId().equals(functionMenuId)) {
                 return fm;
             }
         }
@@ -119,6 +121,7 @@ public class CSApplicationHolder {
 
     /**
      * 产生下一个号
+     *
      * @param functionMenu
      * @return
      */
@@ -129,5 +132,26 @@ public class CSApplicationHolder {
             return String.format("%03d", nextNo);
         }
 
+    }
+
+    /**
+     * 取得等待数量
+     *
+     * @param mOrder
+     * @return
+     */
+    public static int getWaitCount(Order mOrder, List<Order> orderList) {
+        int count = 0;
+        for (Order order : orderList) {
+            if (!order.getOrderNum().equals(mOrder.getOrderNum())) {
+                Integer fmId = mOrder.getFunctionMenu().getId();
+                if (order.getFunctionMenu().getId().equals(fmId)) {
+                    count++;
+                }
+            } else {
+                break;
+            }
+        }
+        return count;
     }
 }

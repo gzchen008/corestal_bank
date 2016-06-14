@@ -1,17 +1,18 @@
 package com.corestal.wpos.bank.main;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.app.DialogFragment;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.device.DeviceManager;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -28,16 +29,15 @@ import com.corestal.wpos.bank.broadcast.HomeWatcherReceiver;
 import com.corestal.wpos.bank.common.CSApplicationHolder;
 import com.corestal.wpos.bank.service.MainService;
 import com.corestal.wpos.bank.service.impl.MainServiceImpl;
+import com.corestal.wpos.bank.utils.AnimtionUtils;
 import com.corestal.wpos.bank.utils.DateUtils;
 import com.corestal.wpos.bank.utils.FileUtils;
-import com.corestal.wpos.bank.utils.HomeKeyLocker;
 import com.corestal.wpos.bank.view.adapter.FunctionMenuListAdapter;
 import com.corestal.wpos.bank.view.adapter.OrderListAdapter;
 import com.corestal.wpos.bank.view.component.MenuFunctionDialog;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.lidroid.xutils.DbUtils;
 import com.lidroid.xutils.ViewUtils;
-import com.lidroid.xutils.db.sqlite.Selector;
 import com.lidroid.xutils.exception.DbException;
 import com.lidroid.xutils.util.LogUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
@@ -48,14 +48,16 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
-import cn.weipass.pos.sdk.Weipos;
-import cn.weipass.pos.sdk.impl.WeiposImpl;
-
 /**
  * 主Activity
  * create by cgz on 16-05-10
  */
 public class MainActivity extends AppCompatActivity {
+    /**
+     * 打印消息
+     */
+    private final static String PRNT_ACTION = "android.prnt.message";
+
     /**
      * 取号按钮
      */
@@ -83,6 +85,12 @@ public class MainActivity extends AppCompatActivity {
      * 开发者侧滑菜单
      */
     private TextView tvDeveloper;
+
+    /**
+     * 清空缓存侧滑菜单
+     */
+    private View tvCleanCache;
+
     /**
      * 侧滑菜单
      */
@@ -121,15 +129,20 @@ public class MainActivity extends AppCompatActivity {
     private HashMap<String, Integer> currentNumMap;
 
     /**
-     * Home事件监听器
-     */
-    private HomeWatcherReceiver homeWatcherReceiver;
-
-    /**
      * 菜单点击事件监听
      */
     private AdapterView.OnItemClickListener functionMenuItemListener;
 
+    /**
+     * 打印机广播接收器
+     */
+    private BroadcastReceiver mPrtReceiver;
+
+    /**
+     * 设备管理器
+     * SDK中类
+     */
+    private DeviceManager deviceManager;
 
     /**
      * 就用标题
@@ -152,21 +165,18 @@ public class MainActivity extends AppCompatActivity {
 
         setListener();
 
+        initAnimtion();
+
     }
 
-    // TODO 此方法只会存在于开发阶段
-    @Deprecated
-    private void initTestData() {
-        orderList = new ArrayList<Order>();
-        Order order = null;
-        for (int i = 0; i < 5; i++) {
-            order = new Order();
-            order.setOrderTime(new Date());
-            order.setFunctionMenu(CSApplicationHolder.getFunctionMenu(3));
-            order.setOrderNum("A" + i);
-            orderList.add(order);
-        }
+    private void initAnimtion() {
+        AnimtionUtils.addClickAnimotionForView(tvSettings);
+        AnimtionUtils.addClickAnimotionForView(tvCleanCache);
+        AnimtionUtils.addClickAnimotionForView(tvDeveloper);
+
+        AnimtionUtils.addTouchDrak(takeNoBtn, true);
     }
+
 
     private void init() {
         // 初始化数据
@@ -203,10 +213,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
             } else {
-                orderList = new ArrayList<Order>();
-                // 清空数据
-                FileUtils.deleteObject(BizConstants.DATA_CURRENT_NUM_MAP_IN_FILE, this);
-                FileUtils.deleteObject(BizConstants.DATA_ORDER_LIST_IN_FILE, this);
+                cleanCache();
                 LogUtils.d("clean:缓存数据非今天，清空");
             }
 
@@ -221,28 +228,42 @@ public class MainActivity extends AppCompatActivity {
         slidingMenu = new SlidingMenu(this);
         slidingMenu.setMode(SlidingMenu.LEFT);
         slidingMenu.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
-        //slidingMenu.setBehindOffsetRes(R.dimen.slidingmenu_offset);
         slidingMenu.setBehindWidthRes(R.dimen.slidingmenu_width);
         View menuView = LayoutInflater.from(this).inflate(R.layout.slidingmenu, null);
         tvSettings = (TextView) menuView.findViewById(R.id.tv_settings);
         tvDeveloper = (TextView) menuView.findViewById(R.id.tv_developer);
+        tvCleanCache = menuView.findViewById(R.id.tv_clean_cache);
         slidingMenu.setMenu(menuView);
         //slidingMenu.setMenu(R.layout.slidingmenu);
         slidingMenu.attachToActivity(this, SlidingMenu.SLIDING_CONTENT);
 
 
-        // 初始化wang pos
-        WeiposImpl.as().init(this, new Weipos.OnInitListener() {
+        mPrtReceiver = new BroadcastReceiver() {
             @Override
-            public void onInitOk() {
-                WeiposImpl.as().speech("排队系统就绪");
+            public void onReceive(Context context, Intent intent) {
+                int ret = intent.getIntExtra("ret", 0);
+                if (ret == -1)
+                    Toast.makeText(MainActivity.this, "打印机缺纸！", Toast.LENGTH_SHORT).show();
             }
+        };
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(PRNT_ACTION);
+        registerReceiver(mPrtReceiver, filter);
+        deviceManager = new DeviceManager();
+        deviceManager.enableHomeKey(false);
+    }
 
-            @Override
-            public void onError(String s) {
-                Toast.makeText(MainActivity.this, "SDK初始化失败", Toast.LENGTH_SHORT).show();
-            }
-        });
+    /**
+     * 清空缓存方法
+     */
+    private void cleanCache() {
+        mainService.initApplication();
+        currentNumMap.clear();
+        orderList.clear();
+        orderListAdapter.notifyDataSetChanged();
+        // 清空数据
+        FileUtils.deleteObject(BizConstants.DATA_CURRENT_NUM_MAP_IN_FILE, this);
+        FileUtils.deleteObject(BizConstants.DATA_ORDER_LIST_IN_FILE, this);
     }
 
     /**
@@ -296,6 +317,13 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        tvCleanCache.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                cleanCache();
+            }
+        });
+
         tvDeveloper.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -309,6 +337,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+
     }
 
     /**
@@ -362,21 +391,34 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        // slidingMenu.toggle(true);
-        if (keyCode == KeyEvent.KEYCODE_HOME) {
-        }
-        return super.onKeyDown(keyCode, event);
-
+    public void onBackPressed() {
+        // 禁用back键
     }
 
     @Override
     protected void onDestroy() {
-        // TODO 效果有待验证
-        Toast.makeText(MainActivity.this, "程序重新启动", Toast.LENGTH_SHORT).show();
-        Intent mIntent = new Intent();
-        mIntent.setClass(this, MainActivity.class);
-        startActivity(mIntent);
+        Toast.makeText(MainActivity.this, "main activity destroy", Toast.LENGTH_SHORT).show();
+
+        //Intent mIntent = new Intent();
+        //mIntent.setClass(this, MainActivity.class);
+        //startActivity(mIntent);
         super.onDestroy();
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(PRNT_ACTION);
+        registerReceiver(mPrtReceiver, filter);
+        deviceManager.enableHomeKey(false);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        unregisterReceiver(mPrtReceiver);
+        deviceManager.enableHomeKey(true);
+    }
+
 }
